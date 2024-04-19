@@ -1,18 +1,17 @@
 {
   "name": "atom-node-logger",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "description": "",
-  "main": "logger.js",
-  "types": "logger.ts",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "tsc"
   },
   "author": "",
   "license": "ISC",
-  "dependencies": {
-    "typescript": "^5.4.2"
-  },
   "devDependencies": {
-    "ts-node-dev": "^2.0.0"
+    "ts-node-dev": "^2.0.0",
+    "typescript": "^5.4.5"
   }
 }
