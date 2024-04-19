@@ -5,5 +5,4 @@ dist/
 .idea
 upload/
 uploads/**/*.png
-package-lock.json
 .env
