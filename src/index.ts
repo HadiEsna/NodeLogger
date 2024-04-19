@@ -2,7 +2,7 @@
 import fs from "fs";
 import path from "path";
 
-let logDir = path.join(__dirname, "../logs");
+let logDir = path.join(__dirname, "../../../logs");
 
 if (!fs.existsSync(logDir)) {
   fs.mkdirSync(logDir);
