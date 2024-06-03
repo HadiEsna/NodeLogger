@@ -1,6 +1,8 @@
 // this will log to files in the logs folder
 import fs from "fs";
 import path from "path";
+import SendGridController from "./send-grid";
+import ResponseHelper from "./helpers/response.helper";
 
 let logDir = path.join(__dirname, "../../../logs");
 
@@ -21,7 +23,15 @@ const setLogDir = (dir: string) => {
   logDir = dir;
 };
 
-const LogMessageToFile = ({ message, user, type }: { message: any; user?: string; type: LogType }) => {
+const LogMessageToFile = ({
+  message,
+  user,
+  type,
+}: {
+  message: any;
+  user?: string;
+  type: LogType;
+}) => {
   if (!user || user.length === 0) {
     user = "general";
   }
@@ -61,3 +71,5 @@ const LoggingHelper = {
 };
 
 export default LoggingHelper;
+
+export { SendGridController, ResponseHelper };
