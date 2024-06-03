@@ -34,7 +34,7 @@ type TemplateConfig = {
 type DynamicDataArgs<T extends TemplateType> = TemplateConfig[T];
 
 class SendGridController {
-  private static redisClient: RedisClientType | null = null;
+  private static redisClient?: RedisClientType | null = null;
 
   public static init({
     SEND_GRID_API_KEY,
@@ -43,7 +43,7 @@ class SendGridController {
   }: {
     SEND_GRID_FULL_ACCESS_API_KEY: string;
     SEND_GRID_API_KEY: string;
-    redisClient: RedisClientType;
+    redisClient?: RedisClientType;
   }) {
     sgMail.setApiKey(SEND_GRID_API_KEY);
     SendGridClient.setApiKey(SEND_GRID_FULL_ACCESS_API_KEY);
