@@ -218,8 +218,20 @@ class SendGridController {
     html?: string;
     inCludeNameInSubject?: boolean;
   }) {
+    const toEmails = [];
+
+    if (typeof to === "string") {
+      toEmails.push(this.emailLists[to] ?? to);
+    }
+
+    if (Array.isArray(to)) {
+      to.forEach((t) => {
+        toEmails.push(this.emailLists[t] ?? t);
+      });
+    }
+
     const msg: MailDataRequired = {
-      to: typeof to === "string" ? this.emailLists[to] ?? to : to,
+      to: toEmails,
       from: this.fromEmail,
       subject: `${
         inCludeNameInSubject && this.serverName ? `${this.serverName}: ` : ""
