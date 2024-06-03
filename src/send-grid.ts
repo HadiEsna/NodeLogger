@@ -6,6 +6,12 @@ import { RedisClientType } from "redis";
 
 type TemplateType = "welcome" | "social" | "verifyEmail" | "contactUs";
 
+export enum EmailSeverity {
+  HIGH = "HIGH",
+  MEDIUM = "MEDIUM",
+  LOW = "LOW",
+}
+
 type TemplateConfig = {
   welcome: {
     isMultiple: boolean;
@@ -36,22 +42,69 @@ type DynamicDataArgs<T extends TemplateType> = TemplateConfig[T];
 class SendGridController {
   private static redisClient?: RedisClientType | null = null;
   private static fromEmail: string;
+  private static emailLists: Record<string, string[]> = {};
+  private static serverName: string | null = null;
+
+  public static addEmailList({
+    name,
+    emails,
+  }: {
+    name: string;
+    emails: string[];
+  }) {
+    this.emailLists[name] = emails;
+  }
+
+  public static getEmailList(name: string) {
+    return this.emailLists[name];
+  }
+
+  public static addEmailToList({
+    name,
+    email,
+  }: {
+    name: string;
+    email: string;
+  }) {
+    if (!this.emailLists[name]) {
+      this.emailLists[name] = [];
+    }
+    this.emailLists[name].push(email);
+  }
+
+  public static removeEmailFromList({
+    name,
+    email,
+  }: {
+    name: string;
+    email: string;
+  }) {
+    if (this.emailLists[name]) {
+      this.emailLists[name] = this.emailLists[name].filter((e) => e !== email);
+    }
+  }
 
   public static init({
     SEND_GRID_API_KEY,
     SEND_GRID_FULL_ACCESS_API_KEY,
     fromEmail,
     redisClient,
+    emailLists = {},
+    serverName,
   }: {
     SEND_GRID_FULL_ACCESS_API_KEY: string;
     SEND_GRID_API_KEY: string;
     fromEmail: string;
     redisClient?: RedisClientType;
+    emailLists?: Record<string, string[]>;
+    serverName?: string;
   }) {
     sgMail.setApiKey(SEND_GRID_API_KEY);
     SendGridClient.setApiKey(SEND_GRID_FULL_ACCESS_API_KEY);
     this.fromEmail = fromEmail;
     this.redisClient = redisClient;
+    this.emailLists = emailLists;
+    this.serverName = serverName;
   }
 
   private static getTemplateId(templateType: TemplateType) {
@@ -155,18 +208,25 @@ class SendGridController {
     subject,
     dynamicData,
     templateId,
+    html,
+    inCludeNameInSubject = false,
   }: {
     to: string | string[];
     subject?: string;
-    templateId: string;
-    dynamicData: Record<string, any>;
+    templateId?: string;
+    dynamicData?: Record<string, any>;
+    html?: string;
+    inCludeNameInSubject?: boolean;
   }) {
     const msg: MailDataRequired = {
-      to: to,
+      to: typeof to === "string" ? this.emailLists[to] ?? to : to,
       from: this.fromEmail,
-      subject: subject,
+      subject: `${
+        inCludeNameInSubject && this.serverName ? `${this.serverName}: ` : ""
+      }${subject}`,
       templateId: templateId,
       dynamicTemplateData: dynamicData,
+      html: html,
     };
 
     try {
