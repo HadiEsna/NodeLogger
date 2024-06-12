@@ -1,7 +1,7 @@
-import express from "express";
+import { Request, Response, NextFunction } from "express";
 
 const success = (
-  res: express.Response,
+  res: Response,
   {
     data,
     message,
@@ -18,7 +18,7 @@ const success = (
   });
 };
 
-const error = (res: express.Response, message: string) => {
+const error = (res: Response, message: string) => {
   return res.status(400).json({
     success: false,
     error: "Error",
@@ -27,7 +27,7 @@ const error = (res: express.Response, message: string) => {
   });
 };
 
-const unauthorized = (res: express.Response, message: string) => {
+const unauthorized = (res: Response, message: string) => {
   return res.status(401).json({
     success: false,
     error: "Unauthorized",
@@ -36,7 +36,7 @@ const unauthorized = (res: express.Response, message: string) => {
   });
 };
 
-const forbidden = (res: express.Response) => {
+const forbidden = (res: Response) => {
   return res.status(403).json({
     success: false,
     code: 403,
@@ -44,7 +44,7 @@ const forbidden = (res: express.Response) => {
   });
 };
 
-const serverError = (res: express.Response, message: string) => {
+const serverError = (res: Response, message: string) => {
   return res.status(500).json({
     success: false,
     error: "Internal Server Error",
@@ -53,7 +53,7 @@ const serverError = (res: express.Response, message: string) => {
   });
 };
 
-const notFound = (res: express.Response, message: string) => {
+const notFound = (res: Response, message: string) => {
   return res.status(404).json({
     success: false,
     error: "Not Found",
@@ -62,7 +62,7 @@ const notFound = (res: express.Response, message: string) => {
   });
 };
 
-const badRequest = (res: express.Response, message: string) => {
+const badRequest = (res: Response, message: string) => {
   return res.status(400).json({
     success: false,
     error: "Bad Request",
