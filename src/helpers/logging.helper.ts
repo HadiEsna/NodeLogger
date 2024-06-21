@@ -2,7 +2,7 @@ import fs from "fs";
 import path from "path";
 import SendGridController, { EmailSeverity } from "../send-grid";
 
-let logDir = path.join(__dirname, "../../../logs");
+let logDir = path.join(__dirname, "../../../../logs");
 
 if (!fs.existsSync(logDir)) {
   fs.mkdirSync(logDir);
