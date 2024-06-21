@@ -21,21 +21,7 @@ const setLogDir = (dir: string) => {
   logDir = dir;
 };
 
-const LogMessageToFile = ({
-  message,
-  user,
-  type,
-  severity = EmailSeverity.LOW,
-  notifyAdmin = false,
-  listToNotify,
-}: {
-  message: any;
-  user?: string;
-  type: LogType;
-  severity?: EmailSeverity;
-  notifyAdmin?: boolean;
-  listToNotify?: string | string[];
-}) => {
+const LogMessageToFile = ({ message, user, type, severity = EmailSeverity.LOW, notifyAdmin = false, listToNotify }: { message: any; user?: string; type: LogType; severity?: EmailSeverity; notifyAdmin?: boolean; listToNotify?: string | string[] }) => {
   if (!user || user.length === 0) {
     user = "general";
   }
@@ -89,6 +75,7 @@ const LoggingHelper = {
   LogMessageToFile,
   setLogDir,
   LogType,
+  logDir,
 };
 
 export default LoggingHelper;
