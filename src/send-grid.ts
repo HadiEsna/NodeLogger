@@ -181,11 +181,25 @@ class SendGridController {
   }: {
     dynamicDataType: T;
     dynamicData: DynamicDataArgs<T>;
-    to: string | string[];
+    to: string | string;
     subject?: string;
   }) {
+    let toEmails = [];
+
+    if (typeof to === "string") {
+      toEmails.push(this.emailLists[to] ?? to);
+    }
+
+    if (Array.isArray(to)) {
+      to.forEach((t) => {
+        toEmails.push(this.emailLists[t] ?? t);
+      });
+    }
+
+    toEmails = toEmails.map((t) => ({ email: t }));
+
     const msg: MailDataRequired = {
-      to: to,
+      to: toEmails,
       from: this.fromEmail,
       subject: subject,
       templateId: this.getTemplateId(dynamicDataType),
@@ -218,7 +232,7 @@ class SendGridController {
     html?: string;
     inCludeNameInSubject?: boolean;
   }) {
-    const toEmails = [];
+    let toEmails = [];
 
     if (typeof to === "string") {
       toEmails.push(this.emailLists[to] ?? to);
@@ -229,6 +243,8 @@ class SendGridController {
         toEmails.push(this.emailLists[t] ?? t);
       });
     }
+
+    toEmails = toEmails.map((t) => ({ email: t }));
 
     const msg: MailDataRequired = {
       to: toEmails,

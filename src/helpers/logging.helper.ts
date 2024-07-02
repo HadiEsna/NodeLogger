@@ -27,6 +27,7 @@ const LogMessageToFile = ({
   type,
   severity = EmailSeverity.LOW,
   notifyAdmin = false,
+  logToConsole = true,
   listToNotify,
 }: {
   message: any;
@@ -34,6 +35,7 @@ const LogMessageToFile = ({
   type: LogType;
   severity?: EmailSeverity;
   notifyAdmin?: boolean;
+  logToConsole?: boolean;
   listToNotify?: string | string[];
 }) => {
   if (!user || user.length === 0) {
@@ -51,7 +53,7 @@ const LogMessageToFile = ({
     errorMessage = message;
   }
 
-  console.log(`${type} ${errorMessage}`);
+  if (logToConsole) console.log(`${type} ${errorMessage}`);
 
   const currentDay = new Date().toISOString().split("T")[0];
   const newLogDir = path.join(logDir, currentDay);
