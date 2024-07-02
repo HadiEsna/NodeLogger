@@ -236,7 +236,6 @@ class SendGridController {
     html?: string;
     inCludeNameInSubject?: boolean;
   }) {
-    console.log("to", to);
     let toEmails = [];
 
     if (typeof to === "string") {
@@ -249,9 +248,7 @@ class SendGridController {
       });
     }
 
-    toEmails = toEmails.map((t) => ({ email: t }));
-
-    console.log("toEmails", toEmails);
+    toEmails = toEmails.flat().map((t) => ({ email: t }));
 
     if (toEmails.length === 0) {
       return null;
@@ -270,7 +267,6 @@ class SendGridController {
 
     try {
       const emailSent = await sgMail.send(msg);
-      console.log(emailSent);
       return emailSent;
     } catch (error: any) {
       console.error(error?.response?.body ?? error);
