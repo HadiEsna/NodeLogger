@@ -267,6 +267,7 @@ class SendGridController {
 
     try {
       const emailSent = await sgMail.send(msg);
+      console.log(emailSent[0].statusCode);
       return emailSent;
     } catch (error: any) {
       if (error.response) {
