@@ -236,6 +236,7 @@ class SendGridController {
     html?: string;
     inCludeNameInSubject?: boolean;
   }) {
+    console.log("to", to);
     let toEmails = [];
 
     if (typeof to === "string") {
@@ -253,6 +254,8 @@ class SendGridController {
     if (toEmails.length === 0) {
       return null;
     }
+
+    console.log("toEmails", toEmails);
 
     const msg: MailDataRequired = {
       to: toEmails,
