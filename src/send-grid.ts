@@ -198,6 +198,10 @@ class SendGridController {
 
     toEmails = toEmails.map((t) => ({ email: t }));
 
+    if (toEmails.length === 0) {
+      return null;
+    }
+
     const msg: MailDataRequired = {
       to: toEmails,
       from: this.fromEmail,
@@ -245,6 +249,10 @@ class SendGridController {
     }
 
     toEmails = toEmails.map((t) => ({ email: t }));
+
+    if (toEmails.length === 0) {
+      return null;
+    }
 
     const msg: MailDataRequired = {
       to: toEmails,
