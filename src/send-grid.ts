@@ -251,11 +251,11 @@ class SendGridController {
 
     toEmails = toEmails.map((t) => ({ email: t }));
 
+    console.log("toEmails", toEmails);
+
     if (toEmails.length === 0) {
       return null;
     }
-
-    console.log("toEmails", toEmails);
 
     const msg: MailDataRequired = {
       to: toEmails,
@@ -270,12 +270,10 @@ class SendGridController {
 
     try {
       const emailSent = await sgMail.send(msg);
-      console.log(emailSent[0].statusCode);
+      console.log(emailSent);
       return emailSent;
     } catch (error: any) {
-      if (error.response) {
-        console.error(error.response.body);
-      }
+      console.error(error?.response?.body ?? error);
       return null;
     }
   }
