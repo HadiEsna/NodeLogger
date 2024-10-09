@@ -103,6 +103,7 @@ const LoggingHelper = {
     LogMessageToFile,
     setLogDir,
     LogType,
+    Log,
 };
 
 export default LoggingHelper;
