@@ -21,7 +21,7 @@ const setLogDir = (dir: string) => {
     logDir = dir;
 };
 
-const Log = (message: string, user: string = "general", type: LogType = LogType.INFO, severity: EmailSeverity = EmailSeverity.LOW, notifyAdmin: boolean = false, logToConsole: boolean = true, listToNotify: string | string[] = []) => {
+const Log = (message: string, user: string = "general", type: LogType = LogType.INFO, severity: EmailSeverity = EmailSeverity.LOW, notifyAdmin: boolean = false, logToConsole: boolean = false, listToNotify: string | string[] = []) => {
     LogMessageToFile({
         message,
         user,
